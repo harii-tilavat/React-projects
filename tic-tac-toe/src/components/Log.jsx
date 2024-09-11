@@ -1,9 +1,12 @@
-export default function Log() {
-    return (
-        <ol id="log">
-            <li>Log1</li>
-            <li>Log2</li>
-            <li>Log3</li>
-        </ol>
-    )
+export default function Log({ turns }) {
+  console.log("LOG : ", turns);
+  return (
+    <ol id="log">
+      {turns.map((turn, index) => (
+        <li key={index}>
+          {turn.player} selected {turn.square.row} , {turn.square.col}
+        </li>
+      ))}
+    </ol>
+  );
 }
