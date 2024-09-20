@@ -5,8 +5,7 @@ export default function Cart({}) {
   const { items, updateCartItemQuantity } = useContext(CartContext);
   const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const formattedTotalPrice = `$${totalPrice.toFixed(2)}`;
-  console.log("CONTEXT : ", items);
-
+  
   return (
     <div id="cart">
       {items.length === 0 && <p>No items in cart!</p>}
