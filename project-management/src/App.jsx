@@ -10,12 +10,13 @@ let testSelectedProejct = {
   description: "This is a demo description.",
   dueDate: new Date(),
 };
+const initialState = {
+  selectedProjectId: undefined,
+  projects: [],
+  tasks: [],
+};
+
 function App() {
-  const initialState = {
-    selectedProjectId: undefined,
-    projects: [testSelectedProejct],
-    tasks: [],
-  };
   const [projectsState, setProjectsState] = useState(initialState);
 
   function handleAddTask(text) {
@@ -34,7 +35,15 @@ function App() {
       };
     });
   }
-  function handleDeleteTask() {}
+  function handleDeleteTask(taskId) {
+    console.log("DELETE: ", taskId);
+    setProjectsState((prevState) => {
+      return {
+        ...prevState,
+        tasks: prevState.tasks.filter((task) => task.id !== taskId),
+      };
+    });
+  }
 
   function handleSelectProject(id) {
     setProjectsState((prevState) => {
