@@ -51,3 +51,4 @@ app.use((req, res, next) => {
 });
 
 app.listen(3000);
+console.log("Server is running of http://localhost:3000");
