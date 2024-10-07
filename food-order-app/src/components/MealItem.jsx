@@ -14,17 +14,12 @@ export default function MealItem({ meal }) {
         <img src={baseUrl + "/" + meal.image} alt="image" />
         <div>
           <h3>{meal.name}</h3>
-          <p className="meal-item-price">{currencyFormatter.format(meal.price * 30)}</p>
+          <p className="meal-item-price">{currencyFormatter.format(meal.price)}</p>
           <p className="meal-item-description">{meal.description}</p>
         </div>
         <p className="meal-item-actions">
           <Button onClick={() => handleAddMealToCart(meal)}>Add to cart</Button>
         </p>
-        <h1>
-          {cartContext.items.map((item) => (
-            <p key={item.id}>{item.name}</p>
-          ))}
-        </h1>
       </article>
     </li>
   );
