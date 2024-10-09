@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Button from "./Button";
 
-export default function Modal({ children, open, showNext = false, className = "", onClose }) {
+export default function Modal({ children, open, className = "", onClose }) {
   const dialog = useRef();
   useEffect(() => {
     const modal = dialog.current;
