@@ -1,18 +1,17 @@
 import classes from "./CartButton.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { productActions } from "../../store/products";
+import { uiActions } from "../../store/ui.js";
 const CartButton = (props) => {
-  const productState = useSelector((state) => state);
+  const totalCart = useSelector((state) => state.cart.totalQuantity);
   const dispatch = useDispatch();
-  console.log("PRODUCT STATE : ", productState);
 
   function handleClick() {
-    dispatch(productActions.toggleCart());
+    dispatch(uiActions.toggleCart());
   }
   return (
     <button className={classes.button} onClick={handleClick}>
       <span>My Cart</span>
-      <span className={classes.badge}>1</span>
+      <span className={classes.badge}>{totalCart}</span>
     </button>
   );
 };
