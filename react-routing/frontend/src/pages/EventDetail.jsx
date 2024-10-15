@@ -6,7 +6,6 @@ import LoaderSpinner from "../components/LoaderSpinner";
 const BASE_URL = "http://localhost:8080";
 const EventDetailPage = () => {
   const { event, events } = useRouteLoaderData("event-detail");
-  console.log("DATA : ", { event, events });
   return (
     <>
       <Suspense fallback={<LoaderSpinner />}>

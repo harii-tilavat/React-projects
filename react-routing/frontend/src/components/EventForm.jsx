@@ -6,7 +6,6 @@ function EventForm({ method, event }) {
   const navigation = useNavigation();
   const navigate = useNavigate();
   const data = useActionData();
-  // console.log("ACTION DATA : ", data);
   const isSubmitting = navigation.state === "submitting";
   function cancelHandler() {
     navigate("..", { relative: "path" });
@@ -50,7 +49,6 @@ function EventForm({ method, event }) {
 export default EventForm;
 
 export const action = async ({ request, params }) => {
-  console.log("ACTION REQEST : ", request);
   const data = await request.formData();
   const eventData = Object.fromEntries(data.entries());
   let url = "http://localhost:8080/events/";

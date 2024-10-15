@@ -5,7 +5,6 @@ import { useEffect } from "react";
 function NewsletterSignup() {
   const fetcher = useFetcher();
   const { data, state } = fetcher;
-  console.log("FETCHER DATA : ", data);
 
   useEffect(() => {
     if (state === "idle" && data && data.message) {

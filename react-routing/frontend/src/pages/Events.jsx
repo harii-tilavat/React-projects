@@ -6,8 +6,6 @@ import LoaderSpinner from "../components/LoaderSpinner";
 const BASE_URL = "http://localhost:8080";
 const EventsPage = () => {
   const { events } = useLoaderData();
-
-  // console.log("DEFER EVENT DATA : ", events);
   return (
     <Suspense fallback={<LoaderSpinner />}>
       <Await resolve={events}>{(loadedEvents) => <EventsList events={loadedEvents} />}</Await>
