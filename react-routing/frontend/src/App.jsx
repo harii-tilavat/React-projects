@@ -20,15 +20,16 @@
 // BONUS: Add another (nested) layout route that adds the <EventNavigation> component above all /events... page components
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/Home";
 import RootLayout from "./pages/RootLayout";
-import EventsPage, { eventsLoader } from "./pages/EventsPage";
-import EventDetailPage, { eventLoader } from "./pages/EventDetailPage";
-import NewEventPage, { eventAction } from "./pages/NewEventPage";
-import EditEventPage from "./pages/EditEventPage";
+import EventsPage, { eventsLoader } from "./pages/Events";
+import EventDetailPage, { eventLoader, deleteEventAction } from "./pages/EventDetail";
+import NewEventPage from "./pages/NewEvent";
+import EditEventPage from "./pages/EditEvent";
 import EventLayout from "./pages/EventLayout";
-import ErrorPage from "./pages/ErrorPage";
-
+import ErrorPage from "./pages/Error";
+import { action as manipulateEventAction } from "./components/EventForm";
+import NewsletterPage, { action as newsletterAction } from "./pages/Newsletter";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -46,12 +47,17 @@ const router = createBrowserRouter([
             id: "event-detail",
             loader: eventLoader,
             children: [
-              { index: true, element: <EventDetailPage /> },
-              { path: "edit", element: <EditEventPage /> },
+              { index: true, element: <EventDetailPage />, action: deleteEventAction },
+              { path: "edit", element: <EditEventPage />, action: manipulateEventAction },
             ],
           },
-          { path: "new", element: <NewEventPage />, action: eventAction },
+          { path: "new", element: <NewEventPage />, action: manipulateEventAction },
         ],
+      },
+      {
+        path: "newsletter",
+        element: <NewsletterPage />,
+        action: newsletterAction,
       },
     ],
   },
