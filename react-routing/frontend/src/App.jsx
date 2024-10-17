@@ -31,10 +31,14 @@ import ErrorPage from "./pages/Error";
 import { action as manipulateEventAction } from "./components/EventForm";
 import NewsletterPage, { action as newsletterAction } from "./pages/Newsletter";
 import AuthenticationPage, { authAction } from "./pages/Authentication";
+import { logoutAction } from "./pages/Logout";
+import { checkAuthLoader, tokenLoader } from "./util/auth";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    loader: tokenLoader,
+    id: "root",
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
@@ -52,11 +56,12 @@ const router = createBrowserRouter([
               { path: "edit", element: <EditEventPage />, action: manipulateEventAction },
             ],
           },
-          { path: "new", element: <NewEventPage />, action: manipulateEventAction },
+          { path: "new", element: <NewEventPage />, action: manipulateEventAction, loader: checkAuthLoader },
         ],
       },
       { path: "newsletter", element: <NewsletterPage />, action: newsletterAction },
       { path: "auth", element: <AuthenticationPage />, action: authAction },
+      { path: "logout", action: logoutAction },
     ],
   },
 ]);

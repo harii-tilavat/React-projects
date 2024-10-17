@@ -1,5 +1,6 @@
 import { json, redirect } from "react-router-dom";
 import AuthForm from "../components/AuthForm";
+import { setAuthToken } from "../util/auth";
 
 const AuthenticationPage = () => {
   return <AuthForm />;
@@ -14,7 +15,7 @@ export const authAction = async ({ request, params }) => {
   };
   const searchParams = new URL(request.url).searchParams;
   const mode = searchParams.get("mode") || "login";
-  
+
   if (mode !== "login" && mode !== "signup") {
     return json({ message: "Mode is not valid!" }, { status: 422 });
   }
@@ -33,8 +34,7 @@ export const authAction = async ({ request, params }) => {
   if (!response.ok) {
     return json({ message: "Could not authenticate the user." }, { status: 500 });
   }
-  console.log("RESPONSE ", response);
-  const data = await response.json();
-  console.log("Data : ", data);
+  const resData = await response.json();
+  setAuthToken(resData.token);
   return redirect("/");
 };
