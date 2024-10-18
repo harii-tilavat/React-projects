@@ -4,7 +4,6 @@ export const queryClient = new QueryClient();
 export const BASE_URL = "http://localhost:3000";
 
 export async function createNewEvent(eventData) {
-  console.log("EVENT : ", eventData);
   const response = await fetch(`http://localhost:3000/events`, {
     method: "POST",
     body: JSON.stringify(eventData),
