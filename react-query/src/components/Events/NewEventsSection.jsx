@@ -11,7 +11,7 @@ export default function NewEventsSection() {
     // staleTime: 5000, // Wait for 5 second and then it will send request again.
     // gcTime: 1000 // After this seconds cached data will be discarded and send this request again.
   });
-  console.log("QUERY DATA : ", data);
+  // console.log("QUERY DATA : ", data);
   let content;
 
   if (isPending) {

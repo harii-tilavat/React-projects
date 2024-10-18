@@ -37,7 +37,6 @@ export default function FindEventSection() {
     <section className="content-section" id="all-events-section">
       <header>
         <h2>Find your next event!</h2>
-        <p>Search term : {searchTerm}</p>
         <form onSubmit={handleSubmit} id="search-form">
           <input type="search" placeholder="Search events" ref={searchElement} />
           <button>Search</button>
