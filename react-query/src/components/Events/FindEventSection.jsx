@@ -33,6 +33,9 @@ export default function FindEventSection() {
       </ul>
     );
   }
+  if (!isError && !isLoading && data && !data.length) {
+    content = <p>No events found for - {searchTerm}!</p>;
+  }
   return (
     <section className="content-section" id="all-events-section">
       <header>

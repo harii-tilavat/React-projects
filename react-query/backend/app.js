@@ -32,17 +32,17 @@ app.get("/events", async (req, res) => {
   }
   // console.log("Request Count : ", reqCount);
   // reqCount++;
-  setTimeout(() => {
-    res.json({
-      events: events.map((event) => ({
-        id: event.id,
-        title: event.title,
-        image: event.image,
-        date: event.date,
-        location: event.location,
-      })),
-    });
-  }, 0);
+  res.json({
+    events: events.map((event) => ({
+      id: event.id,
+      title: event.title,
+      image: event.image,
+      date: event.date,
+      location: event.location,
+    })),
+  });
+  // setTimeout(() => {
+  // }, 0);
 });
 
 app.get("/events/images", async (req, res) => {
@@ -146,9 +146,9 @@ app.delete("/events/:id", async (req, res) => {
 
   await fs.writeFile("./data/events.json", JSON.stringify(events));
 
-  setTimeout(() => {
-    res.json({ message: "Event deleted" });
-  }, 1000);
+  res.json({ message: "Event deleted" });
+  // setTimeout(() => {
+  // }, 1000);
 });
 
 app.listen(3000, () => {
