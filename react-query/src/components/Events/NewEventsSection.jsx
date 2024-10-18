@@ -5,27 +5,27 @@ import EventItem from "./EventItem.jsx";
 import { fetchEvents } from "../../util/http.jsx";
 
 export default function NewEventsSection() {
-  const queryObj = useQuery({
+  const { data, isPending, isError, error } = useQuery({
     queryKey: ["events"],
     queryFn: fetchEvents,
-    staleTime: 5000, // Wait for 5 second and then it will send request again.
-    // gcTime: 1000 // After this seconds cached data will be discarded and send this request again. 
+    // staleTime: 5000, // Wait for 5 second and then it will send request again.
+    // gcTime: 1000 // After this seconds cached data will be discarded and send this request again.
   });
-  console.log("QUERY OBJ : ", queryObj);
+  console.log("QUERY DATA : ", data);
   let content;
 
-  if (queryObj.isPending) {
+  if (isPending) {
     content = <LoadingIndicator />;
   }
 
-  if (queryObj.error) {
-    content = <ErrorBlock title="An error occurred" message="Failed to fetch events" />;
+  if (isError) {
+    content = <ErrorBlock title="An error occurred" message={(error.info && error.info.message) || error.message || "Failed to fetch events!"} />;
   }
 
-  if (queryObj.data) {
+  if (data) {
     content = (
       <ul className="events-list">
-        {queryObj.data.map((event) => (
+        {data.map((event) => (
           <li key={event.id}>
             <EventItem event={event} />
           </li>
