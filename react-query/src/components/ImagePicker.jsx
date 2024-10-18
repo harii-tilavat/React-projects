@@ -12,6 +12,7 @@ export default function ImagePicker({ images, selectedImage, onSelect }) {
             <img
               src={`http://localhost:3000/${image.path}`}
               alt={image.caption}
+              title={image.caption}
             />
           </li>
         ))}

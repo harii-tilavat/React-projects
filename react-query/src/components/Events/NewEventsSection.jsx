@@ -6,8 +6,8 @@ import { fetchEvents } from "../../util/http.jsx";
 
 export default function NewEventsSection() {
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["events"],
-    queryFn: fetchEvents,
+    queryKey: ["events", { max: 3 }],
+    queryFn: ({ signal, queryKey }) => fetchEvents({ signal, ...queryKey[1] }),
     // staleTime: 5000, // Wait for 5 second and then it will send request again.
     // gcTime: 1000 // After this seconds cached data will be discarded and send this request again.
   });

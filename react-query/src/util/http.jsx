@@ -3,22 +3,6 @@ import { QueryClient } from "@tanstack/react-query";
 export const queryClient = new QueryClient();
 export const BASE_URL = "http://localhost:3000";
 
-export async function fetchEvents({ signal, searchTerm }) {
-  const url = "http://localhost:3000/events" + (searchTerm ? "?search=" + searchTerm : "");
-  const response = await fetch(url, { signal: signal });
-
-  if (!response.ok) {
-    const error = new Error("An error occurred while fetching the events");
-    error.code = response.status;
-    error.info = await response.json();
-    throw error;
-  }
-
-  const { events } = await response.json();
-
-  return events;
-}
-
 export async function createNewEvent(eventData) {
   console.log("EVENT : ", eventData);
   const response = await fetch(`http://localhost:3000/events`, {
@@ -40,20 +24,7 @@ export async function createNewEvent(eventData) {
 
   return event;
 }
-export async function fetchSelectableImages({ signal }) {
-  const response = await fetch(`http://localhost:3000/events/images`, { signal });
 
-  if (!response.ok) {
-    const error = new Error("An error occurred while fetching the images");
-    error.code = response.status;
-    error.info = await response.json();
-    throw error;
-  }
-
-  const { images } = await response.json();
-
-  return images;
-}
 export async function fetchEvent({ id, signal }) {
   const response = await fetch(`http://localhost:3000/events/${id}`, { signal });
 
@@ -67,6 +38,29 @@ export async function fetchEvent({ id, signal }) {
   const { event } = await response.json();
 
   return event;
+}
+
+export async function fetchEvents({ signal, searchTerm, max }) {
+  let url = "http://localhost:3000/events";
+  if (searchTerm && max) {
+    url += "?search=" + searchTerm + "&max=" + max;
+  } else if (searchTerm) {
+    url += "?search=" + searchTerm;
+  } else if (max) {
+    url += "?max=" + max;
+  }
+  const response = await fetch(url, { signal: signal });
+
+  if (!response.ok) {
+    const error = new Error("An error occurred while fetching the events");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { events } = await response.json();
+
+  return events;
 }
 
 export async function deleteEvent({ id }) {
@@ -101,4 +95,18 @@ export async function updateEvent({ id, event }) {
   }
 
   return response.json();
+}
+export async function fetchSelectableImages({ signal }) {
+  const response = await fetch(`http://localhost:3000/events/images`, { signal });
+
+  if (!response.ok) {
+    const error = new Error("An error occurred while fetching the images");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { images } = await response.json();
+
+  return images;
 }
