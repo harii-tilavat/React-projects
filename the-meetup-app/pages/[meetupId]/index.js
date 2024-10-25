@@ -1,40 +1,35 @@
+import { ObjectId } from "mongodb";
 import MeetupDetail from "../../components/meetups/MeetupDetail";
+import { connectToDB } from "../../lib/mongodb";
 const MeetupDetailPage = (props) => {
   // console.log("MEETUP : ", props.meetup);
   return <MeetupDetail {...props.meetup} />;
 };
 
 export default MeetupDetailPage;
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const client = await connectToDB();
+  const db = client.db();
+  const meetupCollection = db.collection("meetups");
+  const meetups = await meetupCollection.find({}, { _id: 1 }).toArray();
+  const paths = meetups.map((meetup) => ({ params: { meetupId: meetup._id.toString() } }));
   return {
-    fallback: true,
-    paths: [
-      {
-        params: {
-          meetupId: "m1",
-        },
-      },
-      {
-        params: {
-          meetupId: "m2",
-        },
-      },
-    ],
+    fallback: false,
+    paths: paths,
   };
 }
 export async function getStaticProps(context) {
-  console.log("Context : ", context);
+  // console.log("Context : ", context);
   const meetupId = context.params.meetupId;
-  const initMeetup = {
-    id: "m1",
-    title: "Tech Innovators Meetup",
-    image: "https://images.pexels.com/photos/3183186/pexels-photo-3183186.jpeg?auto=compress&cs=tinysrgb&w=600",
-    address: "25 Park Avenue, New York, NY",
-    description: "Join us for a day of tech discussions and networking with top innovators.",
-  };
+  const client = await connectToDB();
+  const db = client.db();
+  const meetupCollection = db.collection("meetups");
+
+  const selectedMeetup = await meetupCollection.findOne({ _id: new ObjectId(meetupId) });
+  delete selectedMeetup._id;
   return {
     props: {
-      meetup: initMeetup,
+      meetup: selectedMeetup,
     },
   };
 }
