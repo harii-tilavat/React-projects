@@ -1,4 +1,5 @@
 // import { MongoClient } from "mongodb";
+import Head from "next/head";
 import MeetupList from "../components/meetups/MeetupList";
 import { connectToDB } from "../lib/mongodb";
 const DUMMY_MEETUPS = [
@@ -40,11 +41,22 @@ const DUMMY_MEETUPS = [
 ];
 
 const HomePage = (props) => {
-  return <MeetupList meetups={props.meetups} />;
+  return (
+    <>
+      <Head>
+        <title>Upcoming Meetups</title>
+        <meta
+          name="description"
+          content="Explore our curated list of upcoming meetups, where enthusiasts gather to share knowledge, network, and collaborate on exciting projects. Whether you're a tech innovator, a creative thinker, or just looking to connect with like-minded individuals, our meetups offer something for everyone. Browse through the events below to find your next opportunity to learn and connect!"
+        />
+      </Head>
+      <MeetupList meetups={props.meetups} />
+    </>
+  );
 };
 
 // export async function getServerSideProps(context) {
-//   // await new Promise((resolve) => setTimeout(resolve, 5000));
+// //await new Promise((resolve) => setTimeout(resolve, 5000));
 //   console.log("Context : ", context);
 //   return {
 //     props: {
@@ -61,7 +73,7 @@ export async function getStaticProps() {
   const meetupCollection = db.collection("meetups");
   const meetups = await meetupCollection.find().toArray();
   let updatedMeetups = meetups.map(({ _id, ...rest }) => ({ ...rest, id: _id.toString() }));
-  
+
   return {
     props: {
       meetups: updatedMeetups,

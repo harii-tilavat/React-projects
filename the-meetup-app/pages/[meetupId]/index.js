@@ -1,9 +1,18 @@
 import { ObjectId } from "mongodb";
 import MeetupDetail from "../../components/meetups/MeetupDetail";
 import { connectToDB } from "../../lib/mongodb";
+import Head from "next/head";
 const MeetupDetailPage = (props) => {
   // console.log("MEETUP : ", props.meetup);
-  return <MeetupDetail {...props.meetup} />;
+  return (
+    <>
+      <Head>
+        <title>{props.meetup.title}</title>
+        <meta name="description" content={props.meetup.description}/>
+      </Head>
+      <MeetupDetail {...props.meetup} />
+    </>
+  );
 };
 
 export default MeetupDetailPage;
