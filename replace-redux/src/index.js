@@ -6,6 +6,8 @@ import './index.css';
 import App from './App';
 import ProductsProvider from './context/products-context';
 
+import configureStore from './hooks-store/products-store';
+configureStore();
 
 ReactDOM.render(
   <ProductsProvider>

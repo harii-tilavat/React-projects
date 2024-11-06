@@ -1,29 +1,39 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from 'react';
 
 let globalState = {};
-let actions = {};
 let listeners = [];
+let actions = {};
 
-export const useStore = () => {
+export const useStore = (shouldListen = true) => {
     const setState = useState(globalState)[1];
-    const dispatch = (actionIndentifier, payload) => {
-        const newState = actions[actionIndentifier](actionIndentifier, payload);
+
+    const dispatch = (actionIdentifier, payload) => {
+        const newState = actions[actionIdentifier](globalState, payload);
         globalState = { ...globalState, ...newState };
-        for (let listener of listeners) {
+
+        for (const listener of listeners) {
             listener(globalState);
         }
-    }
+    };
+
     useEffect(() => {
-        listeners.push(setState);
-        return () => {
-            listeners = listeners.filter(listener => listener !== setState);
+        if (shouldListen) {
+            listeners.push(setState);
         }
-    }, [setState]);
+
+        return () => {
+            if (shouldListen) {
+                listeners = listeners.filter(li => li !== setState);
+            }
+        };
+    }, [setState, shouldListen]);
+
     return [globalState, dispatch];
-}
+};
+
 export const initStore = (userActions, initialState) => {
     if (initialState) {
         globalState = { ...globalState, ...initialState };
     }
     actions = { ...actions, ...userActions };
-}
+};
